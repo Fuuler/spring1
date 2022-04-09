@@ -1,12 +1,11 @@
 package ru.gb;
 
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
 public class HelloSpring {
     public static void main(String[] args) {
-        MessageProvider messageProvider = MessageSupportFactory
-                .getInstance().getMessageProvider();
-        MessageRender messageRender = MessageSupportFactory
-                .getInstance().getMessageRender();
-        messageRender.setMessageProvider(messageProvider);
+       ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("context.xml");
+       MessageRender messageRender = context.getBean("render", MessageRender.class);
         messageRender.reader();
     }
 }
