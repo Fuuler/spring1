@@ -7,6 +7,9 @@ import ru.gb.persistence.Product;
 import ru.gb.persistence.ProductRepository;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -36,11 +39,6 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public void deleteProduct(Cart cart, Product product, Integer quantity) {
-        cart.deleteProduct(product, quantity);
-    }
-
-    @Override
     public BigDecimal getSum(Cart cart) {
         return cart.getSum();
     }
@@ -67,8 +65,31 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
+    public Integer getItemsAmount(Cart cart) {
+        Integer amount = 0;
+        for (Map.Entry<Product, Integer> entryMap : cart.getCartMap().entrySet()) {
+            amount += entryMap.getValue();
+        }
+        return amount;
+    }
+
+    @Override
     public int getProductQuantity(Cart cart, Long prodId) {
         Product product = productRepository.findById(prodId);
         return this.getProductQuantity(cart, product);
+    }
+
+    @Override
+    public List<Product> getCartListSorted(Cart cart) {
+        List<Product> cartList = new ArrayList<>(cart.getCartMap().keySet());
+        Collections.sort(cartList, (p1, p2) -> {
+            if (p1.getId() > p2.getId()) {
+                return 1;
+            } else if (p1.getId() < p2.getId()) {
+                return -1;
+            }
+            return 0;
+        });
+        return cartList;
     }
 }

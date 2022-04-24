@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import ru.gb.persistence.Product;
 import ru.gb.persistence.ProductRepository;
 
+
 import java.util.List;
 
 @Service
@@ -36,5 +37,6 @@ public class ProductServiceImpl implements ProductService {
     public void deleteById(Long id) {
         productRepository.deleteById(id);
     }
+
 
 }
