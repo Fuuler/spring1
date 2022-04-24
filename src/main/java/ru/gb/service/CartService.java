@@ -1,7 +1,7 @@
 package ru.gb.service;
 
 import ru.gb.persistence.Cart;
-import ru.gb.persistence.Product;
+import ru.gb.persistence.entities.Product;
 
 import java.math.BigDecimal;
 import java.util.List;
