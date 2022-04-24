@@ -3,8 +3,8 @@ package ru.gb.service;
 import org.springframework.beans.factory.annotation.Lookup;
 import org.springframework.stereotype.Service;
 import ru.gb.persistence.Cart;
-import ru.gb.persistence.Product;
-import ru.gb.persistence.ProductRepository;
+import ru.gb.persistence.entities.Product;
+import ru.gb.persistence.repositories.ProductRepository;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;

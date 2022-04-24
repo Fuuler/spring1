@@ -2,8 +2,8 @@ package ru.gb.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.gb.persistence.Product;
-import ru.gb.persistence.ProductRepository;
+import ru.gb.persistence.entities.Product;
+import ru.gb.persistence.repositories.ProductRepository;
 
 
 import java.util.List;
