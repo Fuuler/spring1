@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import ru.gb.persistence.Product;
+import ru.gb.persistence.entities.Product;
 import ru.gb.service.ProductService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,7 +18,7 @@ public class ProductController {
 
     private static final Logger logger = LoggerFactory.getLogger(ProductController.class);
 
-    private ProductService productService;
+    private final ProductService productService;
 
     @Autowired
     public ProductController(ProductService productService) {
@@ -36,7 +36,7 @@ public class ProductController {
         return "products";
     }
 
-    @GetMapping("/edit")
+    @GetMapping("edit")
     public String editProduct(@RequestParam(required = false) Long id,
                               @RequestParam(required = false) Boolean view,
                               HttpServletRequest request,
@@ -63,8 +63,9 @@ public class ProductController {
 
     @GetMapping("/delete")
     public String deleteProduct(@RequestParam Long id, Model model) {
-        logger.debug("New product deleted: " + productService.getProductById(id).toString());
+        logger.debug("Product deleted: " + productService.getProductById(id).toString());
         productService.deleteById(id);
         model.addAttribute("productList", productService.getProductList());
         return "redirect:/products";
-    }}
+    }
+}

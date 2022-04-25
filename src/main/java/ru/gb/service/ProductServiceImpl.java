@@ -2,8 +2,8 @@ package ru.gb.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.gb.persistence.Product;
-import ru.gb.persistence.ProductRepository;
+import ru.gb.persistence.entities.Product;
+import ru.gb.persistence.repositories.ProductRepository;
 
 
 import java.util.List;
@@ -14,7 +14,7 @@ public class ProductServiceImpl implements ProductService {
     private ProductRepository productRepository;
 
     @Autowired
-    public void setProductRepository(ProductRepository productRepository) {
+    public ProductServiceImpl(ProductRepository productRepository) {
         this.productRepository = productRepository;
     }
 
@@ -25,12 +25,12 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product getProductById(Long id) {
-        return productRepository.findById(id);
+        return productRepository.findById(id).get();
     }
 
     @Override
     public void saveOrUpdate(Product product) {
-        productRepository.saveOrUpdate(product);
+//        productRepository.saveOrUpdate(product);
     }
 
     @Override

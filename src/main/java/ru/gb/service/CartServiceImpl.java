@@ -3,9 +3,11 @@ package ru.gb.service;
 import org.springframework.beans.factory.annotation.Lookup;
 import org.springframework.stereotype.Service;
 import ru.gb.persistence.Cart;
-import ru.gb.persistence.Product;
-import ru.gb.persistence.ProductRepository;
+import ru.gb.persistence.entities.CartEntry;
+import ru.gb.persistence.entities.Product;
+import ru.gb.persistence.repositories.ProductRepository;
 
+import javax.persistence.EntityManager;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -13,11 +15,15 @@ import java.util.List;
 import java.util.Map;
 
 @Service
+//@Scope(value = WebApplicationContext.SCOPE_SESSION, proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class CartServiceImpl implements CartService {
+
+    private final EntityManager em;
 
     private final ProductRepository productRepository;
 
-    public CartServiceImpl(ProductRepository productRepository) {
+    public CartServiceImpl(EntityManager em, ProductRepository productRepository) {
+        this.em = em;
         this.productRepository = productRepository;
     }
 
@@ -27,6 +33,14 @@ public class CartServiceImpl implements CartService {
         return null;
     }
 
+    public List<CartEntry> findAllProductsById(Long orderId) {
+        List<CartEntry> cartEntryList = em.createQuery("FROM CartEntry c WHERE c.order_id = :orderId")
+                .setParameter("order_id", orderId)
+                .getResultList();
+        return cartEntryList;
+    }
+
+
     @Override
     public void addProduct(Cart cart, Product product, Integer quantity) {
         cart.addProduct(product, quantity);
@@ -34,7 +48,7 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public void addProduct(Cart cart, Long prodId, Integer quantity) {
-        Product product = productRepository.findById(prodId);
+        Product product = productRepository.findById(prodId).get();
         this.addProduct(cart, product, quantity);
     }
 
@@ -75,7 +89,7 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public int getProductQuantity(Cart cart, Long prodId) {
-        Product product = productRepository.findById(prodId);
+        Product product = productRepository.findById(prodId).get();
         return this.getProductQuantity(cart, product);
     }
 

@@ -1,6 +1,6 @@
 package ru.gb.service;
 
-import ru.gb.persistence.Product;
+import ru.gb.persistence.entities.Product;
 
 import java.util.List;
 
