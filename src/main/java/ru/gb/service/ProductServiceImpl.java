@@ -14,7 +14,7 @@ public class ProductServiceImpl implements ProductService {
     private ProductRepository productRepository;
 
     @Autowired
-    public void setProductRepository(ProductRepository productRepository) {
+    public ProductServiceImpl(ProductRepository productRepository) {
         this.productRepository = productRepository;
     }
 
@@ -25,12 +25,12 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product getProductById(Long id) {
-        return productRepository.findById(id);
+        return productRepository.findById(id).get();
     }
 
     @Override
     public void saveOrUpdate(Product product) {
-        productRepository.saveOrUpdate(product);
+//        productRepository.saveOrUpdate(product);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package ru.gb.service;
 
 import ru.gb.persistence.Cart;
+import ru.gb.persistence.entities.CartEntry;
 import ru.gb.persistence.entities.Product;
 
 import java.math.BigDecimal;
@@ -23,4 +24,6 @@ public interface CartService {
     int getProductQuantity(Cart cart, Long prodId);
 
     List<Product> getCartListSorted(Cart cart);
+
+    List<CartEntry> findAllProductsById(Long orderId);
 }
