@@ -1,8 +1,9 @@
-package ru.gb.controller;
+package ru.gb.controller.rest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
+import ru.gb.controller.ProductController;
 import ru.gb.persistence.entities.Product;
 import ru.gb.persistence.repositories.ProductRepository;
 

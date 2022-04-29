@@ -15,7 +15,6 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-//@Scope(value = WebApplicationContext.SCOPE_SESSION, proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class CartServiceImpl implements CartService {
 
     private final EntityManager em;
@@ -34,16 +33,15 @@ public class CartServiceImpl implements CartService {
     }
 
     public List<CartEntry> findAllProductsById(Long orderId) {
-        List<CartEntry> cartEntryList = em.createQuery("FROM CartEntry c WHERE c.order_id = :orderId")
+        return em.createQuery("FROM CartEntry c WHERE c.order_id = :orderId", CartEntry.class)
                 .setParameter("order_id", orderId)
                 .getResultList();
-        return cartEntryList;
     }
-
 
     @Override
     public void addProduct(Cart cart, Product product, Integer quantity) {
-        cart.addProduct(product, quantity);
+        if (product != null) cart.getCartMap().merge(product, quantity, Integer::sum);
+        if (cart.getCartMap().get(product) < 1) cart.getCartMap().remove(product);
     }
 
     @Override
@@ -54,7 +52,11 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public BigDecimal getSum(Cart cart) {
-        return cart.getSum();
+        BigDecimal sum = BigDecimal.valueOf(0);
+        for (Map.Entry<Product, Integer> entry : cart.getCartMap().entrySet()) {
+            sum = sum.add(entry.getKey().getPrice().multiply(BigDecimal.valueOf(entry.getValue())));
+        }
+        return sum;
     }
 
     public void printCart(Cart cart) {
