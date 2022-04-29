@@ -83,7 +83,9 @@
                                 Cart
                                 <i class="bi bi-cart2"></i>
                                 <!-- th:text="${cartItemsCount > 0 ? cartItemsCount : ''} -->
-                                <span class="badge bg-secondary" th:text="${cartItemsBadge > 0 ? cartItemsBadge : ''}"> ? </span>
+                                <span class="badge bg-secondary"
+                                      th:if="${@cartServiceImpl.getItemsAmount(@cart) > 0}"
+                                      th:text="${@cartServiceImpl.getItemsAmount(@cart)}"> ? </span>
                             </a>
                         </li>
                     </ul>

@@ -3,9 +3,11 @@ package ru.gb.service;
 import org.springframework.beans.factory.annotation.Lookup;
 import org.springframework.stereotype.Service;
 import ru.gb.persistence.Cart;
-import ru.gb.persistence.Product;
-import ru.gb.persistence.ProductRepository;
+import ru.gb.persistence.entities.CartEntry;
+import ru.gb.persistence.entities.Product;
+import ru.gb.persistence.repositories.ProductRepository;
 
+import javax.persistence.EntityManager;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -15,9 +17,12 @@ import java.util.Map;
 @Service
 public class CartServiceImpl implements CartService {
 
+    private final EntityManager em;
+
     private final ProductRepository productRepository;
 
-    public CartServiceImpl(ProductRepository productRepository) {
+    public CartServiceImpl(EntityManager em, ProductRepository productRepository) {
+        this.em = em;
         this.productRepository = productRepository;
     }
 
@@ -27,20 +32,31 @@ public class CartServiceImpl implements CartService {
         return null;
     }
 
+    public List<CartEntry> findAllProductsById(Long orderId) {
+        return em.createQuery("FROM CartEntry c WHERE c.order_id = :orderId", CartEntry.class)
+                .setParameter("order_id", orderId)
+                .getResultList();
+    }
+
     @Override
     public void addProduct(Cart cart, Product product, Integer quantity) {
-        cart.addProduct(product, quantity);
+        if (product != null) cart.getCartMap().merge(product, quantity, Integer::sum);
+        if (cart.getCartMap().get(product) < 1) cart.getCartMap().remove(product);
     }
 
     @Override
     public void addProduct(Cart cart, Long prodId, Integer quantity) {
-        Product product = productRepository.findById(prodId);
+        Product product = productRepository.findById(prodId).get();
         this.addProduct(cart, product, quantity);
     }
 
     @Override
     public BigDecimal getSum(Cart cart) {
-        return cart.getSum();
+        BigDecimal sum = BigDecimal.valueOf(0);
+        for (Map.Entry<Product, Integer> entry : cart.getCartMap().entrySet()) {
+            sum = sum.add(entry.getKey().getPrice().multiply(BigDecimal.valueOf(entry.getValue())));
+        }
+        return sum;
     }
 
     public void printCart(Cart cart) {
@@ -75,7 +91,7 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public int getProductQuantity(Cart cart, Long prodId) {
-        Product product = productRepository.findById(prodId);
+        Product product = productRepository.findById(prodId).get();
         return this.getProductQuantity(cart, product);
     }
 
