@@ -1,78 +1,52 @@
-CREATE TABLE IF NOT EXISTS users (
-                                     id bigserial PRIMARY KEY,
-                                     name      VARCHAR2 NOT NULL);
+create table users (
+                       id                    bigserial,
+                       username              varchar(30) not null unique,
+                       password              varchar(80) not null,
+                       email                 varchar(50) unique,
+                       primary key (id)
+);
 
-DROP TABLE IF EXISTS orders;
-CREATE TABLE IF NOT EXISTS orders (
-                                      id bigserial PRIMARY KEY,
-                                      user_id    INT NOT NULL,
-                                      FOREIGN KEY (user_id) REFERENCES users (id));
+create table roles (
+                       id                    serial,
+                       name                  varchar(50) not null,
+                       primary key (id)
+);
 
-DROP TABLE IF EXISTS products;
-CREATE TABLE IF NOT EXISTS products (
-                                        id bigserial PRIMARY KEY,
-                                        title      VARCHAR2 NOT NULL,
-                                        price     DECIMAL(10,2) NOT NULL);
+create table users_roles (
+                             user_id               bigint not null,
+                             role_id               int not null,
+                             primary key (user_id, role_id),
+                             foreign key (user_id) references users (id),
+                             foreign key (role_id) references roles (id)
+);
 
-DROP TABLE IF EXISTS order_products;
-CREATE TABLE IF NOT EXISTS order_products (
-                                              id bigserial PRIMARY KEY,
-                                              order_id   INT NOT NULL,
-                                              product_id INT NOT NULL,
-                                              quantity  INT NOT NULL,
-                                              acquire_price DECIMAL(10,2) NOT NULL,
-    CONSTRAINT uk_order_products UNIQUE (order_id, product_id),
-    CONSTRAINT fk_order_id FOREIGN KEY (order_id) REFERENCES orders(id),
-    CONSTRAINT fk_product_id FOREIGN KEY (product_id) REFERENCES products(id));
+insert into roles (name)
+values
+    ('ROLE_USER'), ('ROLE_MANAGER'), ('ROLE_ADMIN'), ('ROLE_SUPERADMIN');
 
+insert into users (username, password, email)
+values
+    ('user', '$2y$12$3jD2vqhTkyn3nYy4XmMUXO9V8LaW1gQPsiC8vqaanV7Q05dydOY9C', 'user@gmail.com'),
+    ('manager', '$2y$12$3jD2vqhTkyn3nYy4XmMUXO9V8LaW1gQPsiC8vqaanV7Q05dydOY9C', 'manager@gmail.com'),
+    ('admin', '$2y$12$3jD2vqhTkyn3nYy4XmMUXO9V8LaW1gQPsiC8vqaanV7Q05dydOY9C', 'admin@gmail.com'),
+    ('superadmin', '$2y$12$3jD2vqhTkyn3nYy4XmMUXO9V8LaW1gQPsiC8vqaanV7Q05dydOY9C', 'superadmin@gmail.com');
+-- 123
+insert into users_roles (user_id, role_id)
+values
+    (1, 1),
+    (2, 2),
+    (3, 3),
+    (4, 4);
 
-INSERT INTO users (name)
-VALUES ('User1'),
-       ('User2'),
-       ('User3');
+create table products (
+                          id                    bigserial,
+                          title                 varchar(255) not null,
+                          price                 decimal(6,2) not null,
+                          primary key (id));
 
-INSERT INTO orders (user_id)
-VALUES (1),
-       (1),
-       (1),
-       (2),
-       (1),
-       (3);
-
-INSERT INTO products (title, price)
-VALUES ('Product 01', 10),
-       ('Product 02', 20),
-       ('Product 03', 30),
-       ('Product 04', 40),
-       ('Product 05', 50),
-       ('Product 06', 60),
-       ('Product 07', 70),
-       ('Product 08', 80),
-       ('Product 09', 90),
-       ('Product 10', 100),
-       ('Product 11', 110),
-       ('Product 12', 120),
-       ('Product 13', 130),
-       ('Product 14', 140),
-       ('Product 15', 150),
-       ('Product 16', 160),
-       ('Product 17', 170),
-       ('Product 18', 180),
-       ('Product 19', 190),
-       ('Product 20', 200),
-       ('Product 21', 210);
-
-INSERT INTO order_products (product_id, order_id, quantity, acquire_price)
-VALUES (1, 1, 1, 100.55),
-       (3, 1, 3, 3.55),
-       (4, 1, 5, 44.5),
-       (1, 2, 3, 555.5),
-       (1, 3, 2, 100.5),
-       (4, 3, 6, 200.5),
-       (5, 4, 1, 300.5),
-       (1, 5, 7, 100.5),
-       (5, 5, 5, 150.5),
-       (1, 6, 6, 130.5),
-       (2, 6, 7, 120.5),
-       (4, 6, 8, 110.5),
-       (5, 6, 9, 190.5);
+insert into products (title, price)
+values
+    ('Product1', 10),
+    ('Product2', 20),
+    ('Product3', 30),
+    ('Product4', 40);
