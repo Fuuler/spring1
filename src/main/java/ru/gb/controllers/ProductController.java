@@ -95,7 +95,6 @@ public class ProductController {
     @PostMapping("/filter")
     public String setFilter(@ModelAttribute("productFilter") ProductFilter productFilter, Model model) {
 
-//        String resp = request.getHeader("referer");
         String resp = "redirect:/products/1";
         resp = resp + "?minPrice=";
         if (productFilter.getMinPrice() != null) resp = resp + productFilter.getMinPrice(); // без проверки - NumberFormatException
