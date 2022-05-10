@@ -11,6 +11,7 @@
 <main class="flex-shrink-0">
     <div class="container">
         <div class="row py-2">
+            <span th:text="'Cart id: ' + ${cart.cartId}"/>
             <h2>Список товаров в корзине</h2>
             <form id="cartList">
                 <table class="table" id="productList">
@@ -34,7 +35,7 @@
                         <td class="text-center"><span th:text="${i.count}"> # </span></td>
                         <td class="text-center"><span th:text="${product.id}"> ID </span></td>
                         <td class="text-start">
-                            <a th:text="${product.name}"
+                            <a th:text="${product.title}"
                                th:href="@{'/products/edit?view=1&id=' + ${product.id}}"
                                class="list-group-item list-group-item-action"
                                data-toggle="tooltip" data-placement="top" title="Просмотреть сведения">
