@@ -1,4 +1,4 @@
-package ru.gb.entities;
+package ru.gb.persistence.entities;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

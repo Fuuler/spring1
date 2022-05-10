@@ -1,12 +1,12 @@
-package ru.gb.services;
+package ru.gb.service;
 
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import ru.gb.entities.Product;
-import ru.gb.repositories.ProductRepository;
+import ru.gb.persistence.entities.Product;
+import ru.gb.persistence.repositories.ProductRepository;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -27,11 +27,11 @@ public class ProductService {
         return productPage;
     }
 
-    public Optional<Product> findById(Long id) {
+    public Optional<Product> findProductById(Long id) {
         return productRepository.findById(id);
     }
 
-    public Product saveOrUpdate(Product product) {
+    public Product saveOrUpdateProduct(Product product) {
         return productRepository.save(product);
     }
 
@@ -39,7 +39,4 @@ public class ProductService {
         productRepository.deleteById(id);
     }
 
-    public void deleteProductsInBatch(List<Product> productList) {
-        productRepository.deleteInBatch(productList);
-    }
 }

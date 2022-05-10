@@ -1,10 +1,10 @@
-package ru.gb.repositories;
+package ru.gb.persistence.repositories;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import ru.gb.entities.Product;
+import ru.gb.persistence.entities.Product;
 
 import java.math.BigDecimal;
 
