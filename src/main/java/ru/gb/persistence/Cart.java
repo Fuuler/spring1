@@ -1,32 +1,32 @@
 package ru.gb.persistence;
 
+import lombok.Data;
 import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.WebApplicationContext;
+import ru.gb.persistence.entities.CartEntry;
+import ru.gb.persistence.entities.Product;
 
-import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
+@Data
 @Component
-@Scope("prototype")
+@Scope(
+        value = WebApplicationContext.SCOPE_SESSION,
+        proxyMode = ScopedProxyMode.TARGET_CLASS
+)
 public class Cart {
 
-    private final Map<Product, Integer> cartMap = new HashMap<>();
+    private static final AtomicInteger COUNTER = new AtomicInteger(0);
+    private final int cartId = COUNTER.incrementAndGet();
 
+    private final Map<Product, Integer> cartMap = new HashMap<>();
     public Map<Product, Integer> getCartMap() {
         return cartMap;
-    }
-
-    public void addProduct(Product product, Integer quantity) {
-        if (product != null) cartMap.merge(product, quantity, Integer::sum);
-        if (cartMap.get(product) < 1) cartMap.remove(product);
-    }
-
-    public BigDecimal getSum() {
-        BigDecimal sum = BigDecimal.valueOf(0);
-        for (Map.Entry<Product, Integer> entry : cartMap.entrySet()) {
-            sum = sum.add(entry.getKey().getPrice().multiply(BigDecimal.valueOf(entry.getValue())));
-        }
-        return sum;
     }
 }
