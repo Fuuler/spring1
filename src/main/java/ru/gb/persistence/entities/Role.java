@@ -1,6 +1,7 @@
-package ru.gb.entities;
+package ru.gb.persistence.entities;
 
 import lombok.Data;
+
 import javax.persistence.*;
 
 @Data

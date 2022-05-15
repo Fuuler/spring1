@@ -30,7 +30,8 @@ values
     ('manager', '$2y$12$3jD2vqhTkyn3nYy4XmMUXO9V8LaW1gQPsiC8vqaanV7Q05dydOY9C', 'manager@gmail.com'),
     ('admin', '$2y$12$3jD2vqhTkyn3nYy4XmMUXO9V8LaW1gQPsiC8vqaanV7Q05dydOY9C', 'admin@gmail.com'),
     ('superadmin', '$2y$12$3jD2vqhTkyn3nYy4XmMUXO9V8LaW1gQPsiC8vqaanV7Q05dydOY9C', 'superadmin@gmail.com');
--- 123
+-- password: 123
+
 insert into users_roles (user_id, role_id)
 values
     (1, 1),

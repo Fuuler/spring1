@@ -1,9 +1,8 @@
-package ru.gb.repositories;
-
+package ru.gb.persistence.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import ru.gb.entities.User;
+import ru.gb.persistence.entities.User;
 
 import java.util.Optional;
 

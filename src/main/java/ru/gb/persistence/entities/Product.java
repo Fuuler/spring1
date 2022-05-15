@@ -1,7 +1,6 @@
-package ru.gb.entities;
+package ru.gb.persistence.entities;
 
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
