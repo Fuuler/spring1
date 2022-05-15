@@ -1,4 +1,4 @@
-package ru.gb.controller;
+package ru.gb.controllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,5 +19,4 @@ public class ContactsController {
     public String contacts (Model model) {
         return "contacts";
     }
-
 }

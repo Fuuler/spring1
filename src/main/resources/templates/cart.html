@@ -34,7 +34,7 @@
                         <td class="text-center"><span th:text="${i.count}"> # </span></td>
                         <td class="text-center"><span th:text="${product.id}"> ID </span></td>
                         <td class="text-start">
-                            <a th:text="${product.name}"
+                            <a th:text="${product.title}"
                                th:href="@{'/products/edit?view=1&id=' + ${product.id}}"
                                class="list-group-item list-group-item-action"
                                data-toggle="tooltip" data-placement="top" title="Просмотреть сведения">
